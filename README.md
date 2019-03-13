@@ -1,7 +1,7 @@
 ## Usage example
 
 ```
-
+$connection = new PhpAmqpLib\Connection\AMQPStreamConnection('192.168.0.1', 5672, 'test', 'test', 'testing');
 
 $driver = new RFDrivers\RabbitMQ\Driver($connection);
 
