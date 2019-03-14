@@ -43,13 +43,12 @@ class Consumer implements TRFConsumer
     }
 
     /**
+     * @param string $queue
      * @param callable $msgProcess
      */
-    public function consume(callable $msgProcess): void
+    public function consume(string $queue, callable $msgProcess): void
     {
         $this->driver->init();
-        $queue = 'Testing';
-
         $this->driver->basicConsume($queue, 'test-consumer', function (MQMessage $message) use ($msgProcess, $queue) {
             $ack = false;
             try {

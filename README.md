@@ -7,7 +7,7 @@ $driver = new \TRFDrivers\RabbitMQ\Driver($connection);
 
 $consumer = new TRFConsumer\Consumer($driver);
 
-$consumer->consume(function (TRFConsumer\Interfaces\MQMessage $message) {
+$consumer->consume("TestQueue", function (TRFConsumer\Interfaces\MQMessage $message) {
     //print msg body
     var_dump($message->body());
 

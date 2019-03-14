@@ -11,5 +11,9 @@ namespace TRFConsumer\Interfaces;
 
 interface TRFConsumer
 {
-    public function consume(callable $msgProcess): void;
+    /**
+     * @param string $queue Queue to consume
+     * @param callable $msgProcess
+     */
+    public function consume(string $queue, callable $msgProcess): void;
 }
