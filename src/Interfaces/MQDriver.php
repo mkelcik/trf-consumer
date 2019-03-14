@@ -30,10 +30,10 @@ interface MQDriver
     /**
      * @param string $queue
      * @param MQMessage $message
-     * @param int $ttl
+     * @param int $expiration
      * @throws InvalidOriginalMessageException
      */
-    public function publishRetry(string $queue, MQMessage $message, int $ttl): void;
+    public function publishRetry(string $queue, MQMessage $message, int $expiration): void;
 
     /**
      * @param string $queue

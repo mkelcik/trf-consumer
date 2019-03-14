@@ -13,11 +13,11 @@ abstract class EventAbstract extends Event
      */
     private $message;
     /**
-     * @var ConsumeException
+     * @var \Exception
      */
     private $ex;
 
-    public function __construct(MQMessage $message, ConsumeException $ex)
+    public function __construct(MQMessage $message, \Exception $ex)
     {
         $this->message = $message;
         $this->ex = $ex;
@@ -28,7 +28,7 @@ abstract class EventAbstract extends Event
         return $this->message;
     }
 
-    public function getException(): ConsumeException
+    public function getException(): \Exception
     {
         return $this->ex;
     }

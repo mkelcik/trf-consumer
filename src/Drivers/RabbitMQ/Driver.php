@@ -78,6 +78,9 @@ class Driver implements MQDriver
         );
     }
 
+    /**
+     * @param string $readyQueue
+     */
     protected function declareQueues(string $readyQueue)
     {
         $this->getChannel()->queue_declare(sprintf(static::MASK_QUEUE_RETRY, $readyQueue), false, true, false, false, false, new AMQPTable([
@@ -97,11 +100,17 @@ class Driver implements MQDriver
         }
     }
 
+    /**
+     * @param MQMessage $message
+     */
     public function ackMessage(MQMessage $message): void
     {
         $this->getChannel()->basic_ack($message->deliveryTag());
     }
 
+    /**
+     *
+     */
     public function shutdown(): void
     {
         if (isset($this->channel)) {
@@ -112,15 +121,15 @@ class Driver implements MQDriver
     /**
      * @param string $queue
      * @param MQMessage $message
-     * @param int|null $ttl
+     * @param int|null $expiration
      * @throws InvalidOriginalMessageException
      */
-    protected function rePublish(string $queue, MQMessage $message, ?int $ttl = null)
+    protected function rePublish(string $queue, MQMessage $message, ?int $expiration = null)
     {
         $originalMsg = $message->original();
         if ($originalMsg instanceof AMQPMessage) {
-            if (!empty($ttl)) {
-                $originalMsg->set('expiration', $ttl);
+            if (!empty($expiration)) {
+                $originalMsg->set('expiration', $expiration);
             }
             $this->getChannel()->basic_publish($originalMsg, '', $queue);
         } else {
@@ -131,12 +140,12 @@ class Driver implements MQDriver
     /**
      * @param string $queue
      * @param MQMessage $message
-     * @param int $ttl
+     * @param int $expiration
      * @throws InvalidOriginalMessageException
      */
-    public function publishRetry(string $queue, MQMessage $message, int $ttl): void
+    public function publishRetry(string $queue, MQMessage $message, int $expiration): void
     {
-        $this->rePublish(sprintf(static::MASK_QUEUE_RETRY, $queue), $message, $ttl);
+        $this->rePublish(sprintf(static::MASK_QUEUE_RETRY, $queue), $message, $expiration);
     }
 
     /**
