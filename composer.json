@@ -9,7 +9,7 @@
   "autoload": {
     "psr-4": {
       "TRFConsumer\\": "src/",
-      "TRFDrivers\\": "src/drivers/"
+      "TRFDrivers\\": "src/Drivers/"
     }
   },
   "require-dev": {
